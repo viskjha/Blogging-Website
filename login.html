@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login</title>
+    <link rel="stylesheet" href="./css/nav.css">
+    <link rel="stylesheet" href="./css/log-reg.css">
+</head>
+
+<body>
+
+    <div class="sticky">
+        <header>
+            <div class="container">
+                <div id="branding">
+                    <h1><span class="highlite">Vishal</span> Blog Network</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">contactUs</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+    </div>
+    
+    <section class="container-form">
+        <form id="my-form" action="login.html" name="login" onsubmit="return validateForm()" method="POST">
+            <h1>Login</h1>
+
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" name="email" placeholder="Enter Your Email" id="email" onblur="validate('email', 'emailErr')"
+                    onkeypress="validate('email', 'emailErr')">
+                <p id="emailErr" style="display:none">*Required</p>
+            </div>
+    
+            <div>
+                <label for="">Password</label>
+                <input type="password" name="pass1" placeholder="Enter Your Password" id="pass1"
+                    onblur="validate('pass1', 'pass1Err')" onkeypress="validate('pass1', 'pass1Err')">
+                <p id="pass1Err" style="display:none">*Required</p>
+            </div>
+            <button class="btn" type="submit" value="submit">Login</button>
+
+            <h3><a href="signup.html">Click here for Sign UP</a></h3>
+    
+        </form>
+    </section>
+
+    <script src="./js/validate.js"></script>
+</body>
+
+</html>
