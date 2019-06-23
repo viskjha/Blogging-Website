@@ -35,7 +35,13 @@ body{
 .wrapper .imgbox img
 {
     max-width: 100%;
-    border: 3px rgb(255, 255, 255) solid;
+    border: 5px rgb(255, 255, 255) solid;
+}
+
+.wrapper p
+{
+    font-size: 20px;
+    padding: 15px;
 }
 
 .wrapper .imgbox h2
