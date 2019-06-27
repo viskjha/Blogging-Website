@@ -7,6 +7,7 @@
     <title>Registration</title>
     <link rel="stylesheet" href="./css/nav.css">
     <link rel="stylesheet" href="./css/log-reg.css">
+    
 </head>
 <body>
     <div class="sticky">
@@ -25,51 +26,100 @@
             </div>
         </header>
     </div>
+
+
+    <?php 
+        $fnameErr=$lnameErr=$unameErr=$emailErr=$numErr=$pass1Err=$pass2Err="";
+        if(!empty($_POST))
+        {
+            if(empty($_POST['fname']))
+            {
+                $fnameErr = "First Name must be Filled";
+            }
+
+            if(empty($_POST['lname']))
+            {
+                $lnameErr = "Last Name must be Filled";
+            }
+
+            if(empty($_POST['uname']))
+            {
+                $unameErr = "User Name must be Filled";
+            }
+
+            if(empty($_POST['email']))
+            {
+                $emailErr = "Email must be Filled";
+            }
+
+            if(empty($_POST['num']))
+            {
+                $numErr = "Number must be Filled";
+            }
+
+            if(empty($_POST['pass1']))
+            {
+                $pass1Err = "Password must be Filled";
+            }
+
+            if(empty($_POST['pass2']))
+            {
+                $pass2Err = "Password must be Filled";
+            }
+        }
+    ?>
     
     <section class="container-form">
-        <form id="my-form" action="login.html" name="login" onsubmit="return validateForm()" method="POST">
+        <form id="my-form" action="" name="login" onsubmit="return validateForm()" method="POST">
             <h1>Register</h1>
 
             <div>
                 <label for="">First Name:</label>
                 <input type="text" name="fname" placeholder="Enter First Name" id="fname" onblur="validate('fname', 'fnameErr')" onkeypress="validate('fname', 'fnameErr')">
-            <p id="fnameErr" style="display:none">*Required</p>
+                <p id="fnameErr" style="display:none">*Required</p>
+                <p class="val-php"><?php echo $fnameErr; ?></p>
             </div>
 
             <div>
                 <label for="">Last Name:</label>
                 <input type="text" name="lname" placeholder="Enter Last Name" id="lname" onblur="validate('lname', 'lnameErr')" onkeypress="validate('lname', 'lnameErr')">
                 <p id="lnameErr" style="display:none">*Required</p>
+                <p class="val-php"><?php echo $lnameErr; ?></p>
             </div>
 
             <div>
                 <label for="">User Name:</label>
-                <input type="text" name="lname" placeholder="User Name" id="uname" onblur="validate('uname', 'unameErr')" onkeypress="validate('uname', 'unameErr')">
+                <input type="text" name="uname" placeholder="User Name" id="uname" onblur="validate('uname', 'unameErr')" onkeypress="validate('uname', 'unameErr')">
                 <p id="unameErr" style="display:none">*Required</p>
+                <p class="val-php"><?php echo $unameErr; ?></p>
             </div>
 
             <div>
                 <label for="email">Email:</label>
                 <input type="email" name="email" placeholder="Enter Your Email" id="email" onblur="validate('email', 'emailErr')" onkeypress="validate('email', 'emailErr')">
                 <p id="emailErr" style="display:none">*Required</p>
+                <p class="val-php"><?php echo $emailErr; ?></p>
             </div>
 
             <div>
                 <label for="">Number:</label>
-                <input type="number" name="lname" placeholder="Enter Your Number" id="num" onblur="validate('num', 'numErr')" onkeypress="validate('num', 'numErr')">
+                <input type="number" name="num" placeholder="Enter Your Number" id="num" onblur="validate('num', 'numErr')" onkeypress="validate('num', 'numErr')">
                 <p id="numErr" style="display:none">*Required</p>
+                <p class="val-php"><?php echo $numErr; ?></p>
             </div>
 
             <div>
                 <label for="">Password</label>
                 <input type="password" name="pass1" placeholder="Enter Your Password" id="pass1" onblur="validate('pass1', 'pass1Err')" onkeypress="validate('pass1', 'pass1Err')">
                 <p id="pass1Err" style="display:none">*Required</p>
+                <p class="val-php"><?php echo $pass1Err; ?></p>
             </div>
 
             <div>
                 <label for="">Re-Enter Password:</label>
                 <input type="password" name="pass2" placeholder="Re-Enter Your Password" id="pass2" onblur="validatePass()">
                 <p id="pass2Err" style="display:none">*Required</p>
+                <p class="val-php"><?php echo $pass2Err; ?></p>
             </div>
 
             <button class="btn" type="submit" value="submit">Sign Up</button>

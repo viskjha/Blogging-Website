@@ -87,9 +87,14 @@ body {
   color: #fff;
 }
 
-.error {
+/* .error {
   background: rgb(221, 73, 73);
   color: #fff;
   padding: 5px;
   margin: 5px;
+} */
+
+.val-php
+{
+  color: red;
 }

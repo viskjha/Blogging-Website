@@ -42,37 +42,38 @@ function validateForm() {
     var num = document.forms["login"]["num"].value;
     var pass1 = document.forms["login"]["pass1"].value;
     var pass2 = document.forms["login"]["pass2"].value;
+
     if (fname == "") {
-        alert("Name must be filled out");
+        alert("First Name must be filled out");
         return false;
     }
 
-    // else if (lname == "") {
-    //     alert("Last Name must be filled out");
-    //     return false;
-    // }
+    if (lname == "") {
+        alert("Last Name must be filled out");
+        return false;
+    }
 
-    else if (uname == "") {
+    if (uname == "") {
         alert("User Name must be filled out");
         return false;
     }
 
-    else if (email == "") {
+    if (email == "") {
         alert("Email must be filled out");
         return false;
     }
 
-    else if (num == "") {
+    if (num == "") {
         alert("Number must be filled out");
         return false;
     }
 
-    else if (pass1 == "") {
+    if (pass1 == "") {
         alert("Password must be filled out");
         return false;
     }
 
-    else if (pass2 == "") {
+    if (pass2 == "") {
         alert("password must be filled out");
         return false;
     }
