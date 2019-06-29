@@ -18,7 +18,7 @@
                 </div>
                 <nav>
                     <ul>
-                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.php">Home</a></li>
                         <li><a href="#">About</a></li>
                         <li><a href="#">contact Us</a></li>
                     </ul>
@@ -124,6 +124,7 @@
                         else {
                             echo "ERROR". $sql ."<br>". $conn->error;
                         }
+                        $conn -> close();
             }
         }
     ?>
@@ -184,7 +185,7 @@
 
             <button class="btn" type="submit" value="submit">Sign Up</button>
 
-            <h3><a href="login.html">Click here for Login</a></h3>
+            <h3><a href="login.php">Click here for Login</a></h3>
 
         </form>
     </section>

@@ -30,8 +30,8 @@
 <header id="showcase">
     <h1>Welcome To Blogger</h1>
     <p>Start Your Own Stunning Blog</p>
-    <a href="login.html" class="button">Login</a>
-    <a href="signup.html" class="button">Sign Up</a>
+    <a href="login.php" class="button">Login</a>
+    <a href="signup.php" class="button">Sign Up</a>
 </header>
 
   

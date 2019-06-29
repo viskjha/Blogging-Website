@@ -1,3 +1,7 @@
+<?php
+   session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,6 +24,7 @@
                         <li><a href="index.html">Home</a></li>
                         <li><a href="#">About</a></li>
                         <li><a href="#">contactUs</a></li>
+                        <li><a href="logout.php">Logout</a></li>
                     </ul>
                 </nav>
             </div>
@@ -31,16 +36,30 @@
         <div class="imgbox">
             <img src="./imgs/profil.jpg" alt="Avatar">
 
-            <h2>Vishal Kumar Jha</h2>
+            <?php
 
-            <h3>occupation :</h3>
-            <h3>Address :</h3>
-            <h3>Email :</h3>
-            <h3>Phone :</h3>
-            <h3>Gender :</h3>
-            <h3>Skills :</h3>
-            <h3>Languages :</h3>
-            <h3>Education :</h3>
+                if($_SESSION['loggedIn']===true)
+                {
+                    echo "<h2>". $_SESSION['userDetails']['first_name']. " ";
+                    echo $_SESSION['userDetails']['last_name']."</h2>";
+
+
+                    echo "<h3>". "ID : " .$_SESSION['userDetails']['id']."<br>";
+
+                    echo "Email : " .$_SESSION['userDetails']['email']."<br>";
+
+                    echo "User Name : " .$_SESSION['userDetails']['user_name']."<br>";
+
+                    echo "Number : " .$_SESSION['userDetails']['number']."<br>";
+                    
+                }
+                else {
+                    header('Location: login.php');
+                }
+                
+            ?>
+
+
         </div>
 
         <div>
