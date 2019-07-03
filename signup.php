@@ -101,6 +101,31 @@
 
 
 
+            // File related code
+            $target_dir = "uploads/";
+            $target_file = $target_dir . basename($_FILES["profileImage"]["name"]);
+            $fileStatus = true;
+
+            //get the image extension
+            $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+            if($imageFileType != "jpg" && $imageFileType != "png") {
+                $fileErr= "Only JPG and PNG images allowed";
+                $fileStatus = false;
+                $status = false;
+            }
+            
+            if($fileStatus){
+                if(move_uploaded_file($_FILES["profileImage"]["tmp_name"], $target_file)) {
+                $status = true;
+                //die("File uploaded");
+            } else {
+                $fileErr= "Issues in file upload";
+                $status = false;
+            }
+            }
+
+
+
             $servername="localhost";
             $username="root";
             $password="";
@@ -114,8 +139,8 @@
                     die("ERROR: ". $conn->connect_error);
                 }
 
-                $sql = "INSERT INTO users (first_name, last_name, user_name, email, number, password)
-                        values('$fname', '$lname', '$uname', '$email', '$num', '$pass1')";
+                $sql = "INSERT INTO users (first_name, last_name, user_name, email, number, password, images)
+                        values('$fname', '$lname', '$uname', '$email', '$num', '$pass1', '$target_file')";
 
                         if($conn->query($sql))
                         {
@@ -131,7 +156,7 @@
     
     <section class="container-form">
         <p class="val-php"><?php echo $msg; ?></p>
-        <form id="my-form" action="<?=$_SERVER['PHP_SELF'];?>" name="login" onsubmit="return validateForm()" method="POST">
+        <form id="my-form" action="<?=$_SERVER['PHP_SELF'];?>" name="login" onsubmit="return validateForm()" method="POST" enctype="multipart/form-data">
             <h1>Register</h1>
 
             <div>
@@ -182,6 +207,8 @@
                 <p id="pass2Err" style="display:none">*Required</p>
                 <p class="val-php"><?php echo $pass2Err; ?></p>
             </div>
+
+            Images:<input type="file" name="profileImage">
 
             <button class="btn" type="submit" value="submit">Sign Up</button>
 

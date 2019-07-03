@@ -72,7 +72,7 @@
                     die("ERROR: ". $conn->connect_error);
                 }
 
-                $sql = "SELECT id,first_name,last_name,user_name,email,number FROM users WHERE email='$email' AND password='$pass1'";
+                $sql = "SELECT id,first_name,last_name,user_name,email,number, images FROM users WHERE email='$email' AND password='$pass1'";
 
                         $result=$conn->query($sql);
 

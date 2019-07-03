@@ -1,5 +1,8 @@
 <?php
-   session_start();
+    session_start();
+	if($_SESSION['loggedIn'] !== true) {
+		header('Location: login.php');
+	}
 ?>
 
 <!DOCTYPE html>
@@ -34,94 +37,129 @@
 
     <div class="wrapper">
         <div class="imgbox">
-            <img src="./imgs/profil.jpg" alt="Avatar">
+
+        <?php
+            $imgs = $_SESSION['userDetails']['images'];
+        ?>
+            <img src="<?php echo $imgs ?>" alt="Avator">
+
 
             <?php
+                echo "<h2>". $_SESSION['userDetails']['first_name']. " ";
+                echo $_SESSION['userDetails']['last_name']."</h2>";
 
-                if($_SESSION['loggedIn']===true)
+
+                echo "<h3>". "ID : " .$_SESSION['userDetails']['id']."<br>";
+
+                echo "Email : " .$_SESSION['userDetails']['email']."<br>";
+
+                echo "User Name : " .$_SESSION['userDetails']['user_name']."<br>";
+
+                echo "Number : " .$_SESSION['userDetails']['number']."<br>";
+            ?>
+
+        </div>
+
+
+
+        <div>
+
+            <?php
+                $titleErr =$desErr="";
+                $title = $des="";
+                $status=true;
+                $id= $_SESSION['userDetails']['id'];
+                $postsResult="";
+
+                //Connect To Database
+                $servername="localhost";
+                $username="root";
+                $password="";
+                $db="blog";
+                $conn = new mysqli($servername, $username, $password, $db);
+                //Check Error
+                    if($conn->connect_error)
+                    {
+                        die("Connection Failed: ". $conn->connect_error);
+                    }
+
+
+                if(!empty($_POST))
                 {
-                    echo "<h2>". $_SESSION['userDetails']['first_name']. " ";
-                    echo $_SESSION['userDetails']['last_name']."</h2>";
-
-
-                    echo "<h3>". "ID : " .$_SESSION['userDetails']['id']."<br>";
-
-                    echo "Email : " .$_SESSION['userDetails']['email']."<br>";
-
-                    echo "User Name : " .$_SESSION['userDetails']['user_name']."<br>";
-
-                    echo "Number : " .$_SESSION['userDetails']['number']."<br>";
                     
+                    if(empty($_POST['title']))
+                    {
+                        $titleErr = "Title must be filled";
+                        $status=false;
+                    }
+                    else {
+                        $title = $_POST['title'];
+                    }
+
+                    if(empty($_POST['des']))
+                    {
+                        $desErr = "Description must be filled";
+                        $status=false;
+                    }
+                    else {
+                        $des = $_POST['des'];
+                    }
+
+
+                if($status)
+                {
+                    // Insert Into Database
+                    $sql="INSERT INTO post (title, description, user_id)
+                        values('$title','$des', '$id')";
+                    $result = $conn->query($sql);
+                    header("location: profile.php");
+                    exit;
                 }
-                else {
-                    header('Location: login.php');
+
                 }
                 
             ?>
 
+            <h2>Create Post</h2>
+            <section class="container-form">
+                <form action="<?=$_SERVER['PHP_SELF'];?>" method="POST" id="my-form">
 
-        </div>
+                <div>
+                    <label for="">Title:</label>
+                    <input type="text" name="title">
+                    <p><?php echo $titleErr; ?></p>
+                </div>
 
-        <div>
-            <h1>This is My First Blog</h1>
-            <small>21/06/2019</small><br><br>
+                <div>
+                    <label for="">Description:</label>
+                    <textarea name="des" id="" cols="30" rows="10" class="text-ar"></textarea>
+                    <p><?php echo $desErr; ?></p>
+                </div>
 
-            <p>Web Development tutorials, source code and reviews
-            Welcome to The Web Development Blog where I share my ideas on working with WordPress, Ubuntu, PHP and a lot of other
-            “geeky” stuff.</p>
-            <p>I’m Olaf Lederer and most of the tutorials and code that I share are used in my own projects. Through the years, I have
-            received so much support and guidance from other webmasters that I started the Web Development Blog to in turn help
-            others. As part of my ‘day job’, I am continually researching SEO, web hosting and tech stuff. I’ll share my views on
-            web hosting issues, various online services and other assorted web programming topics.</p>
-            
-            <p>From time to time, I’ll invite some of my friends to guest post and as always, everyone is welcome to join the
-            discussion.</p>
-            
-            <p>Web Development Blog
-            Website Development
-            All about Website Development
-            Website development is the one topic that ties together everything I discuss here on Web Development Blog. Much of what
-            we do as web professionals goes beyond writing lines of code. I’ll be sharing ideas and tips on running a web
-            development business, site design and usability, image use and tools that make creating websites easier.</p>
-            
-            <p>PHP Script & Tutorials
-            Web Development Blog PHP Scripts & Tutorials
-            All of my PHP tutorials are based on scripts that I am using on my own website projects. I try to keep my PHP code
-            simple without complex code structures but with smart and easy functions. I wrote most of the code discussed on the Web
-            Development Blog , but I also like to talk about 3rd party scripts that I frequently use.</p>
-            
-            <p>WordPress Development
-            WordPress Development
-            Over the past few years, I am finding myself using WordPress more frequently in building my own websites and sites for
-            my customers. WordPress becomes more powerful with each update and it’s easy to add more features. I write about cool
-            WordPress plugins that I’ve found and share the modifications I have implemented in my own WordPress projects.
-            
-            Web Hosting
-            Website Hosting Reviews & Tutorials
-            Without web hosts, there would be no websites. Within the past few years, the hosting business has changed. There are
-            many Cloud hosting providers and Linux hosting on Ubuntu is easier than ever before. I maintain several Ubuntu-based
-            virtual servers and share my experience here on the Web Development Blog as often as possible.</p>
-            
-            <p>Shopping Cart Templates
-            Shopping Cart Templates
-            Choose a premium shopping cart template and add a new design to your web shop within hours. There are templates for
-            Magento Commerce, osCommerce, Zen-Cart, WooCommerce, Opencart and several other eCommerce platforms. All templates come
-            together with the full demo content and a layered PhotoShop (.psd) file for your own modifications.
-            
-            
-            Web Development tutorials, source code and reviews
-            Welcome to The Web Development Blog where I share my ideas on working with WordPress, Ubuntu, PHP and a lot of other
-            “geeky” stuff.
-            I’m Olaf Lederer and most of the tutorials and code that I share are used in my own projects. Through the years, I have
-            received so much support and guidance from other webmasters that I started the Web Development Blog to in turn help
-            others. As part of my ‘day job’, I am continually researching SEO, web hosting and tech stuff. I’ll share my views on
-            web hosting issues, various online services and other assorted web programming topics.</p>
+                <input type="submit" name="submit" value="CREATE POST" class="btn">
+            </form>
+                
+            </section>
+            <hr>
+
+
+
+            <?php
+    
+               $sql = "SELECT title, description FROM post INNER JOIN users ON post.user_id = users.id WHERE user_id = $id";
+	           $postsResult = $conn->query($sql);
+
+               while($row = $postsResult->fetch_assoc())
+                {
+                    echo "<div><h1>".$row["title"]."</h1>";
+                    echo "<p>".$row["description"]."<p></div>";
+                }	
+                $conn->close();
+    
+            ?>
             
         </div>
     </div>
-
-
-    
     
 </body>
 </html>
