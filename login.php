@@ -98,14 +98,14 @@
 
             <div>
                 <label for="email">Email:</label>
-                <input type="email" name="email" placeholder="Enter Your Email" id="email" onblur="validate('email', 'emailErr')" onkeypress="validate('email', 'emailErr')">
+                <input type="email" name="email" placeholder="Enter Your Email" id="email" onblur="validate('email', 'emailErr')" onkeypress="validate('email', 'emailErr')" require>
                 <p id="emailErr" style="display:none">*Required</p>
                 <p class="val-php"><?php echo $emailErr; ?></p>
             </div>
 
             <div>
                 <label for="">Password</label>
-                <input type="password" name="pass1" placeholder="Enter Your Password" id="pass1" onblur="validate('pass1', 'pass1Err')" onkeypress="validate('pass1', 'pass1Err')">
+                <input type="password" name="pass1" placeholder="Enter Your Password" id="pass1" onblur="validate('pass1', 'pass1Err')" onkeypress="validate('pass1', 'pass1Err')" require>
                 <p id="pass1Err" style="display:none">*Required</p>
                 <p class="val-php"><?php echo $pass1Err; ?></p>
             </div>
@@ -118,6 +118,6 @@
     </section>
     
 
-   <script src="./js/validate.js"></script> 
+   <script src="./js/vlog.js"></script> 
 </body>
 </html>

@@ -57,7 +57,6 @@
 
                 echo "Number : " .$_SESSION['userDetails']['number']."<br>";
             ?>
-            <a href="editpro.php">Edit Profile</a>
 
         </div>
 
@@ -69,7 +68,7 @@
                 $titleErr =$desErr="";
                 $title = $des="";
                 $status=true;
-                $id= $_SESSION['userDetails']['id'];
+                $id= $_SESSION['userDetail']['id'];
                 $postsResult="";
 
                 //Connect To Database
@@ -110,8 +109,11 @@
                 if($status)
                 {
                     // Insert Into Database
-                    $sql="INSERT INTO post (title, description, user_id)
-                        values('$title','$des', '$id')";
+                    $sql="UPDATE post SET
+                        title = '$title',
+                        description = '$des'
+                        WHERE id = '$id' ";
+                        
                     $result = $conn->query($sql);
                     header("location: profile.php");
                     exit;
@@ -127,45 +129,21 @@
 
                 <div>
                     <label for="">Title:</label>
-                    <input type="text" name="title">
+                    <input type="text" name="title" value="<?php echo $_SESSION['userDetail']['title'] ?>">
                     <p><?php echo $titleErr; ?></p>
                 </div>
 
                 <div>
                     <label for="">Description:</label>
-                    <textarea name="des" id="" cols="30" rows="10" class="text-ar"></textarea>
+                    <input type="text" name="des" class="text-ar" value="<?php echo $_SESSION['userDetail']['description'] ?>">
                     <p><?php echo $desErr; ?></p>
                 </div>
 
-                <input type="submit" name="submit" value="CREATE POST" class="btn">
+                <input type="submit" name="submit" value="UPDATE" class="btn">
             </form>
                 
             </section>
             <hr>
-
-
-
-            <?php
-    
-               $sql = "SELECT title, description, last_update_date_time FROM post INNER JOIN users ON post.user_id = users.id WHERE user_id = $id";
-               $postsResult = $conn->query($sql);
-
-               while($row = $postsResult->fetch_assoc())
-                {
-                    echo "<div><h1>".$row["title"]."</h1>". $row["last_update_date_time"]."<br>". "<a href=\"edit.php\">Edit</a>";
-                    echo "<p>".$row["description"]."<p></div>";
-                }	
-
-
-               // Send Data to edit
-               $sql = "SELECT  id,title, description FROM post";
-               $postsResult = $conn->query($sql);
-
-               $record = $postsResult->fetch_assoc();
-               $_SESSION['userDetail'] = $record;
-                $conn->close();
-    
-            ?>
             
         </div>
     </div>

@@ -1,13 +1,20 @@
+<?php
+    session_start();
+	if($_SESSION['loggedIn'] !== true) {
+		header('Location: login.php');
+	}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Registration</title>
+    <title>Profile</title>
+    <link rel="stylesheet" href="./css/profile.css">
     <link rel="stylesheet" href="./css/nav.css">
-    <link rel="stylesheet" href="./css/log-reg.css">
-    
+    <link rel="stylesheet" href="./css/editpro.css">
 </head>
 <body>
     <div class="sticky">
@@ -18,9 +25,10 @@
                 </div>
                 <nav>
                     <ul>
-                        <li><a href="index.php">Home</a></li>
+                        <li><a href="index.html">Home</a></li>
                         <li><a href="#">About</a></li>
-                        <li><a href="#">contact Us</a></li>
+                        <li><a href="#">contactUs</a></li>
+                        <li><a href="logout.php">Logout</a></li>
                     </ul>
                 </nav>
             </div>
@@ -28,9 +36,43 @@
     </div>
 
 
-    <?php 
+    <div class="wrapper">
+        <div class="imgbox">
+
+        <?php
+            $imgs = $_SESSION['userDetails']['images'];
+        ?>
+            <img src="<?php echo $imgs ?>" alt="Avator">
+
+
+            <?php
+                echo "<h2>". $_SESSION['userDetails']['first_name']. " ";
+                echo $_SESSION['userDetails']['last_name']."</h2>";
+
+
+                echo "<h3>". "ID : " .$_SESSION['userDetails']['id']."<br>";
+
+                echo "Email : " .$_SESSION['userDetails']['email']."<br>";
+
+                echo "User Name : " .$_SESSION['userDetails']['user_name']."<br>";
+
+                echo "Number : " .$_SESSION['userDetails']['number']."<br>";
+                
+            ?>
+
+        </div>
+
+
+
+
+
+        
+
+
+        <?php 
         $fnameErr=$lnameErr=$unameErr=$emailErr=$numErr=$pass1Err=$pass2Err="";
         $fname=$lname=$uname=$email=$num=$pass1=$pass2="";
+        $id= $_SESSION['userDetails']['id'];
         $status=true;
         $msg="";
 
@@ -139,19 +181,18 @@
                     die("ERROR: ". $conn->connect_error);
                 }
 
-                $sql = "INSERT INTO users (first_name, last_name, user_name, email, number, password, images)
-                        values('$fname', '$lname', '$uname', '$email', '$num', '$pass1', '$target_file')";
-
-                        if($conn->query($sql))
-                        {
-                            $msg = "Register Successfull";
-                            header("location: login.php");
-                            exit;
-                        }
-                        else {
-                            echo "ERROR". $sql ."<br>". $conn->error;
-                        }
-                        $conn -> close();
+                $sql="UPDATE users SET
+                        first_name = '$fname',
+                        last_name = '$lname',
+                        user_name = '$uname',
+                        number = '$num',
+                        password = '$pass1',
+                        images = '$target_file'
+                        WHERE id = '$id' ";
+                        
+                    $result = $conn->query($sql);
+                    header("location: logout.php");
+                    exit;
             }
         }
     ?>
@@ -163,35 +204,28 @@
 
             <div>
                 <label for="">First Name:</label>
-                <input type="text" name="fname" placeholder="Enter First Name" id="fname" onblur="validate('fname', 'fnameErr')" onkeypress="validate('fname', 'fnameErr')">
+                <input type="text" name="fname" placeholder="Enter First Name" id="fname" value="<?php echo $_SESSION['userDetails']['first_name'] ?>" onblur="validate('fname', 'fnameErr')" onkeypress="validate('fname', 'fnameErr')">
                 <p id="fnameErr" style="display:none">*Required</p>
                 <p class="val-php"><?php echo $fnameErr; ?></p>
             </div>
 
             <div>
                 <label for="">Last Name:</label>
-                <input type="text" name="lname" placeholder="Enter Last Name" id="lname" onblur="validate('lname', 'lnameErr')" onkeypress="validate('lname', 'lnameErr')">
+                <input type="text" name="lname" placeholder="Enter Last Name" id="lname" value="<?php echo $_SESSION['userDetails']['last_name'] ?>" onblur="validate('lname', 'lnameErr')" onkeypress="validate('lname', 'lnameErr')">
                 <p id="lnameErr" style="display:none">*Required</p>
                 <p class="val-php"><?php echo $lnameErr; ?></p>
             </div>
 
             <div>
                 <label for="">User Name:</label>
-                <input type="text" name="uname" placeholder="User Name" id="uname" onblur="validate('uname', 'unameErr')" onkeypress="validate('uname', 'unameErr')">
+                <input type="text" name="uname" placeholder="User Name" id="uname" value="<?php echo $_SESSION['userDetails']['user_name'] ?>" onblur="validate('uname', 'unameErr')" onkeypress="validate('uname', 'unameErr')">
                 <p id="unameErr" style="display:none">*Required</p>
                 <p class="val-php"><?php echo $unameErr; ?></p>
             </div>
 
             <div>
-                <label for="email">Email:</label>
-                <input type="email" name="email" placeholder="Enter Your Email" id="email" onblur="validate('email', 'emailErr')" onkeypress="validate('email', 'emailErr')">
-                <p id="emailErr" style="display:none">*Required</p>
-                <p class="val-php"><?php echo $emailErr; ?></p>
-            </div>
-
-            <div>
                 <label for="">Number:</label>
-                <input type="number" name="num" placeholder="Enter Your Number" id="num" onblur="validate('num', 'numErr')" onkeypress="validate('num', 'numErr')">
+                <input type="number" name="num" placeholder="Enter Your Number" id="num" value="<?php echo $_SESSION['userDetails']['number'] ?>" onblur="validate('num', 'numErr')" onkeypress="validate('num', 'numErr')">
                 <p id="numErr" style="display:none">*Required</p>
                 <p class="val-php"><?php echo $numErr; ?></p>
             </div>
@@ -212,14 +246,14 @@
 
             Images:<input type="file" name="profileImage">
 
-            <button class="btn" type="submit" value="submit">Sign Up</button>
-
-            <h3><a href="login.php">Click here for Login</a></h3>
+            <button class="btn" type="submit" value="submit">UPDATE</button>
 
         </form>
     </section>
     
 
-   <script src="./js/validate.js"></script> 
+   <script src="./js/validate.js"></script>
+    </div>
+    
 </body>
 </html>
