@@ -145,7 +145,7 @@
                         if($conn->query($sql))
                         {
                             $msg = "Register Successfull";
-                            header("location: login.php");
+                            header("location: index.php");
                             exit;
                         }
                         else {
